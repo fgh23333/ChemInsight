@@ -12,16 +12,16 @@ from google.adk.tools.mcp_tool import StreamableHTTPConnectionParams
 from google.adk.tools.mcp_tool.mcp_toolset import McpToolset
 
 # Your ADK agent connects to the remote MCP service via Streamable HTTP
-mcp_toolset = McpToolset(
-    connection_params=StreamableHTTPConnectionParams(
-        url="http://ailab.flashhold.com:18000/mcp",
-    )
-)
+# mcp_toolset = McpToolset(
+#     connection_params=StreamableHTTPConnectionParams(
+#         url="http://localhost:8000/mcp",
+#     )
+# )
 
 # --- Load Environment Variables ---
 load_dotenv()
-API_KEY = os.getenv("OPENAI_API_KEY")
-ENDPOINT = os.getenv("OPENAI_API_BASE")
+# API_KEY = os.getenv("OPENAI_API_KEY")
+# ENDPOINT = os.getenv("OPENAI_API_BASE")
 
 # --- 【重要】更新后的系统提示 ---
 SYSTEM_PROMPT = """
@@ -30,19 +30,19 @@ SYSTEM_PROMPT = """
 """
 
 # --- Agent 实例化 (使用新工具和新提示) ---
-model_config = LiteLlm(
-    # 强烈建议使用原生支持多模态的强大模型
-    model="openai/google/gemini-2.5-pro", 
-    api_base=ENDPOINT,
-    api_key=API_KEY
-)
+# model_config = LiteLlm(
+#     # 强烈建议使用原生支持多模态的强大模型
+#     model="openai/google/gemini-2.5-pro", 
+#     api_base=ENDPOINT,
+#     api_key=API_KEY
+# )
 
 meta_agent = LlmAgent(
     name="MetaAgent",
-    model=model_config,
+    model="gemini-2.5-flash",
     instruction=SYSTEM_PROMPT,
-    before_model_callback=read_files_as_text_callback,
-    tools=[mcp_toolset]
+    # before_model_callback=read_files_as_text_callback,
+    # tools=[mcp_toolset]
 )
 
 # 当 ADK Web 服务器加载这个文件时，它会自动寻找这个 root_agent 实例
