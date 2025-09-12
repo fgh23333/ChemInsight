@@ -1,0 +1,8 @@
+google-adk
+python-dotenv
+ragflow-sdk
+loguru
+litellm
+python-docx 
+openpyxl 
+python-pptx
