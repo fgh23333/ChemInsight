@@ -13,11 +13,11 @@ from google.adk.tools.mcp_tool.mcp_toolset import McpToolset
 from google.adk.planners.plan_re_act_planner import PlanReActPlanner
 
 # Your ADK agent connects to the remote MCP service via Streamable HTTP
-# mcp_toolset = McpToolset(
-#     connection_params=StreamableHTTPConnectionParams(
-#         url="http://localhost:8000/mcp",
-#     )
-# )
+mcp_toolset = McpToolset(
+    connection_params=StreamableHTTPConnectionParams(
+        url="http://localhost:8080/mcp",
+    )
+)
 
 # --- Load Environment Variables ---
 load_dotenv()
@@ -28,6 +28,7 @@ load_dotenv()
 SYSTEM_PROMPT = """
 你是一个强大的 AI 助理，精通ADK框架和多模态处理。
 你的任务是根据用户的需求（可能包含文本、代码和上传的文件），提供专业、准确的回答。
+你可以在合适的时候使用合适的工具来帮助你完成任务。
 """
 
 react_planner = PlanReActPlanner()
@@ -46,7 +47,7 @@ meta_agent = LlmAgent(
     instruction=SYSTEM_PROMPT,
     planner=react_planner,
     # before_model_callback=read_files_as_text_callback,
-    # tools=[mcp_toolset]
+    tools=[mcp_toolset]
 )
 
 # 当 ADK Web 服务器加载这个文件时，它会自动寻找这个 root_agent 实例
