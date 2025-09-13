@@ -6,23 +6,22 @@
 定义一个函数来执行具体操作，然后使用 `FunctionTool.from_function()` 将其包装成一个工具。
 """
 
+from google.adk.sessions.session import Session
 from google.adk.tools import ToolContext
 
 async def save_memory_tool(
-    key: str, value: str, tool_context: ToolContext
+    session: Session, tool_context: ToolContext
 ) -> str:
     """
-    将信息片段保存到长期记忆中。
+    将session保存到长期记忆中。
 
     Args:
-        key: 信息的唯一标识符。
-        value: 要存储的信息内容。
+        session: 要存储的会话。
         tool_context: 工具调用上下文，由ADK自动提供。
 
     Returns:
         一条确认信息。
     """
-    print(f"--- [工具执行中] 正在保存记忆: key='{key}' ---")
     # `tool_context.memory_service` 是由自定义的 `VertexMemoryRunner` 注入的实例。
-    await tool_context._invocation_context.memory_service.add_session_to_memory(value)
-    return f"信息已成功以 '{key}' 为键保存。"
+    await tool_context._invocation_context.memory_service.add_session_to_memory(session)
+    return f"{session} 已成功保存。"
