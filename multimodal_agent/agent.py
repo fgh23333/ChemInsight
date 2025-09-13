@@ -15,7 +15,7 @@ from google.adk.planners.plan_re_act_planner import PlanReActPlanner
 # Your ADK agent connects to the remote MCP service via Streamable HTTP
 mcp_toolset = McpToolset(
     connection_params=StreamableHTTPConnectionParams(
-        url="http://localhost:8080/mcp",
+        url="https://mcp.635262140.xyz/mcp",
     )
 )
 

@@ -24,5 +24,5 @@ async def save_memory_tool(
     """
     print(f"--- [工具执行中] 正在保存记忆: key='{key}' ---")
     # `tool_context.memory_service` 是由自定义的 `VertexMemoryRunner` 注入的实例。
-    await tool_context.memory_service.save(key, value)
+    await tool_context._invocation_context.memory_service.add_session_to_memory(value)
     return f"信息已成功以 '{key}' 为键保存。"
