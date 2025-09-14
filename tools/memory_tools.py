@@ -22,6 +22,5 @@ async def save_memory_tool(
     Returns:
         一条确认信息。
     """
-    # `tool_context.memory_service` 是由自定义的 `VertexMemoryRunner` 注入的实例。
     await tool_context._invocation_context.memory_service.add_session_to_memory(session)
     return f"{session} 已成功保存。"

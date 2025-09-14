@@ -27,7 +27,7 @@ ENDPOINT = os.getenv("OPENAI_API_BASE")
 
 model_config = LiteLlm(
     # 强烈建议使用原生支持多模态的强大模型
-    model="openai/google/gemini-2.5-pro",
+    model="openai/gemini-2.5-pro",
     api_base=ENDPOINT,
     api_key=API_KEY
 )
