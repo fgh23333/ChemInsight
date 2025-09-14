@@ -82,8 +82,8 @@ react_planner = PlanReActPlanner()
 
 supervisor_agent = LlmAgent(
     name="SupervisorAgent",
-    model=model_config,
-    # model="gemini-2.5-pro",
+    # model=model_config,
+    model="gemini-2.5-pro",
     instruction=SYSTEM_PROMPT,
     planner=react_planner,
     before_model_callback=read_files_as_text_callback,

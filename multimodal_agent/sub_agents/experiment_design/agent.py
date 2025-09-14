@@ -66,8 +66,8 @@ react_planner = PlanReActPlanner()
 
 experiment_design_agent = LlmAgent(
     name="ExperimentDesignAgent",
-    model=model_config,
-    # model="gemini-2.5-flash",
+    # model=model_config,
+    model="gemini-2.5-pro",
     instruction=SYSTEM_PROMPT,
     planner=react_planner,
     before_model_callback=read_files_as_text_callback,

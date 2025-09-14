@@ -55,8 +55,8 @@ react_planner = PlanReActPlanner()
 
 data_analyze_agent = LlmAgent(
     name="DataAnalyzeAgent",
-    model=model_config,
-    # model="gemini-2.5-flash",
+    # model=model_config,
+    model="gemini-2.5-pro",
     instruction=SYSTEM_PROMPT,
     planner=react_planner,
     before_model_callback=read_files_as_text_callback,
