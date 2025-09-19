@@ -62,7 +62,7 @@ SYSTEM_PROMPT = (
 
 react_planner = PlanReActPlanner()
 
-experiment_design_agent = LlmAgent(
+paper_analyze_agent = LlmAgent(
     name="PaperAnalyzeAgent",
     # model=model_config,
     model="gemini-2.5-pro",

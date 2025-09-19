@@ -12,6 +12,7 @@ from google.adk.tools.mcp_tool.mcp_toolset import McpToolset
 from google.adk.planners.plan_re_act_planner import PlanReActPlanner
 from .sub_agents.experiment_design.agent import experiment_design_agent
 from .sub_agents.data_analyze.agent import data_analyze_agent
+from .sub_agents.paper_analyze.agent import paper_analyze_agent
 
 # Your ADK agent connects to the remote MCP service via Streamable HTTP
 mcp_toolset = McpToolset(
@@ -44,6 +45,9 @@ SYSTEM_PROMPT = (
     "2. **`DataAnalyzeAgent` (数据分析专家)**:\n"
     "   - **需要信息**: ① **实验方案** (用于理解数据背景) 和 ② **原始数据**。\n"
     "   - **输出**: 数据分析报告、统计结果和可视化图表。\n"
+    "3. **`PaperAnalyzeAgent` (论文分析专家)**:\n"
+    "   - **需要信息**: ① **论文文件** (用于理解论文内容) 和 ② **研究问题**。\n"
+    "   - **输出**: 文献分析报告、关键信息和可视化图表。\n"
     "\n"
     "**核心职责**:\n"
     "1. **需求解析**: 深入分析用户请求，识别任务是单一的还是复合的。\n"
@@ -72,13 +76,20 @@ SYSTEM_PROMPT = (
     "\n"
     "**场景3：分析论文**\n"
     "用户提供了论文文件。\n"
-    "1. **思考**: 我需要先提取论文中的研究课题，然后调用 `ExperimentDesignAgent`。\n"
-    "2. **行动**: 调用ExperimentDesignAgent，并传入论文中的研究课题作为查询参数。\n"
-    "3. **观察**: 收到生成的实验方案。\n"
-    "4. **思考**: 我现在有了实验方案和论文中的数据路径，满足了 `DataAnalyzeAgent` 的所有要求。我将调用它。\n"
-    "5. **行动**: 调用DataAnalyzeAgent，并传入实验方案和论文中的数据路径作为查询参数。\n"
-    "6. **观察**: 收到数据分析结果。\n"
-    "7. **最终报告**: 整合实验方案和数据分析结果，形成报告。\n"
+    "1. **思考**: 用户提供了论文文件，我将调用 `PaperAnalyzeAgent`。\n"
+    "2. **行动**: 调用PaperAnalyzeAgent，并传入论文文件作为查询参数。\n"
+    "3. **观察**: 收到论文分析结果。\n"
+    "4. **最终报告**: 输出论文分析结果。\n"
+    "\n"
+    "**场景4：分析论文并设计实验**\n"
+    "用户提供了论文文件和研究课题。\n"
+    "1. **思考**: 用户提供了论文文件，我将调用 `PaperAnalyzeAgent`。\n"
+    "2. **行动**: 调用PaperAnalyzeAgent，并传入论文文件作为查询参数。\n"
+    "3. **观察**: 收到论文分析结果。\n"
+    "4. **思考**: 我现在有了论文分析结果和研究课题，我将调用 `ExperimentDesignAgent`。\n"
+    "5. **行动**: 调用ExperimentDesignAgent，并传入论文分析结果和研究课题作为查询参数。\n"
+    "6. **观察**: 收到实验方案。\n"
+    "7. **最终报告**: 整合论文分析结果和实验方案，形成报告。\n"
     "\n"
     "**重要原则**:\n"
     "- **任务依赖**: 数据分析必须依赖于实验方案。\n"
@@ -97,7 +108,7 @@ supervisor_agent = LlmAgent(
     instruction=SYSTEM_PROMPT,
     planner=react_planner,
     before_model_callback=read_files_as_text_callback,
-    sub_agents=[experiment_design_agent, data_analyze_agent],
+    sub_agents=[experiment_design_agent, data_analyze_agent, paper_analyze_agent],
     tools=[mcp_toolset]
 )
 
